@@ -340,7 +340,7 @@ class CornersProblem(search.SearchProblem):
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
             if not hitsWall:
-                successorVisitedCorners = list(visitedCorners)
+                VisitedCornersNode = list(visitedCorners)
                 next_node = (nextx, nexty)
                 if next_node in self.corners:
                     if next_node not in successorVisitedCorners:
@@ -381,23 +381,27 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    # return 0 # Default to trivial solution
+
+    # Tim cac goc con lai de toi GoalState
     visitedCorners = state[1]
     cornersLeftToVisit = []
     for corner in corners:
         if corner not in visitedCorners:
             cornersLeftToVisit.append(corner)
-
-    # Duong dan hieu qua nhat cho tung goc
-    totalCost = 0
-    toaDo = state[0]
-    currentPoint = toaDo
+    currentNode = state[0]
+    result = 0
     while cornersLeftToVisit:
-        heuristic_cost, corner = \
-            min([(util.manhattanDistance(currentPoint, corner), corner) for corner in cornersLeftToVisit])
-        cornersLeftToVisit.remove(corner)
-        currentPoint = corner
-        totalCost += heuristic_cost
-    return totalCost
+        minDistance = 99999
+        for corner in cornersLeftToVisit:
+            distance = util.manhattanDistance(currentNode, corner)
+            if distance < minDistance:
+                minDistance = distance
+                index = corner
+        cornersLeftToVisit.remove(index)
+        currentNode = index
+        result += minDistance
+    return result
     #return 0  Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
