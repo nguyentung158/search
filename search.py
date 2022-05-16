@@ -89,15 +89,15 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     print("Start:", problem.getStartState())
-    startingNode = problem.getStartState()
-    if problem.isGoalState(startingNode):
+    startNode = problem.getStartState()
+    if problem.isGoalState(startNode):
         return []
-    queue = util.Stack()
+    myStack = util.Stack()
     visitedNodes = []
-    queue.push((startingNode,[]))
+    myStack.push((startNode,[]))
 
-    while not queue.isEmpty():
-        currentNode, actions = queue.pop()
+    while not myStack.isEmpty():
+        currentNode, actions = myStack.pop()
         if currentNode not in visitedNodes:
             visitedNodes.append(currentNode)
             if problem.isGoalState(currentNode):
@@ -105,44 +105,41 @@ def depthFirstSearch(problem):
                 return actions
             for nextNode, action, cost in problem.getSuccessors(currentNode):
                 nextAction = actions + [action]
-                queue.push((nextNode, nextAction))
+                myStack.push((nextNode, nextAction))
     
-
-
-
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    startingNode = problem.getStartState()
-    if problem.isGoalState(startingNode):
+    startNode = problem.getStartState()
+    if problem.isGoalState(startNode):
         return []
         
-    queue = util.Queue()
+    myQueue = util.Queue()
     visitedNodes = []
-    queue.push((startingNode, []))
+    myQueue.push((startNode, []))
 
-    while not queue.isEmpty():
-        currentNode, actions = queue.pop()
+    while not myQueue.isEmpty():
+        currentNode, actions = myQueue.pop()
         if currentNode not in visitedNodes:
             visitedNodes.append(currentNode)
             if problem.isGoalState(currentNode):
                 return actions
             for nextNode, action, cost in problem.getSuccessors(currentNode):
                 nextAction = actions + [action]
-                queue.push((nextNode, nextAction))
+                myQueue.push((nextNode, nextAction))
 
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    startingNode = problem.getStartState()
-    if problem.isGoalState(startingNode):
+    startNode = problem.getStartState()
+    if problem.isGoalState(startNode):
         return []
     visitedNodes = []
     priorityQueue = util.PriorityQueue()
-    priorityQueue.push((startingNode, [], 0), 0)
+    priorityQueue.push((startNode, [], 0), 0)
 
-    while not  priorityQueue.isEmpty():
+    while not priorityQueue.isEmpty():
         currentNode, actions, oldCost =  priorityQueue.pop()
         if currentNode not in visitedNodes:
             visitedNodes.append(currentNode)
@@ -164,14 +161,14 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    startingNode = problem.getStartState()
-    if problem.isGoalState(startingNode):
+    startNode = problem.getStartState()
+    if problem.isGoalState(startNode):
         return []
 
     visitedNodes = []
 
     priorityQueue = util.PriorityQueue()
-    priorityQueue.push((startingNode, [], 0), 0)
+    priorityQueue.push((startNode, [], 0), 0)
 
     while not priorityQueue.isEmpty():
         currentNode, actions, oldCost = priorityQueue.pop()

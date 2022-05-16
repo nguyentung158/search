@@ -340,12 +340,12 @@ class CornersProblem(search.SearchProblem):
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
             if not hitsWall:
-                VisitedCornersNode = list(visitedCorners)
+                SuccessorVisitedCornersNode = list(visitedCorners)
                 next_node = (nextx, nexty)
                 if next_node in self.corners:
-                    if next_node not in successorVisitedCorners:
-                        successorVisitedCorners.append(next_node)
-                successor = ((next_node, successorVisitedCorners), action, 1)
+                    if next_node not in SuccessorVisitedCornersNode:
+                        SuccessorVisitedCornersNode.append(next_node)
+                successor = ((next_node, SuccessorVisitedCornersNode), action, 1)
                 successors.append(successor)
         self._expanded += 1 # DO NOT CHANGE
         return successors
