@@ -385,20 +385,20 @@ def cornersHeuristic(state, problem):
 
     # Tim cac goc con lai de toi GoalState
     visitedCorners = state[1]
-    cornersLeftToVisit = []
+    unVisitedCorners = []
     for corner in corners:
         if corner not in visitedCorners:
-            cornersLeftToVisit.append(corner)
+            unVisitedCorners.append(corner)
     currentNode = state[0]
     result = 0
-    while cornersLeftToVisit:
+    while unVisitedCorners:
         minDistance = 99999
-        for corner in cornersLeftToVisit:
+        for corner in unVisitedCorners:
             distance = util.manhattanDistance(currentNode, corner)
             if distance < minDistance:
                 minDistance = distance
                 index = corner
-        cornersLeftToVisit.remove(index)
+        unVisitedCorners.remove(index)
         currentNode = index
         result += minDistance
     return result
