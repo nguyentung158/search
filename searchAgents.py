@@ -503,15 +503,18 @@ def foodHeuristic(state, problem):
     # to be the Heuristc, it will be the minimum actual cost when all the other food points is on the way to the farthest food point. For other
     # situations, the actual cost would just be more than this one since we need to move away from this way to get another food point. So the 
     # heuristic function is admissible as well as consistent. 
-    H = 0
     maxDistance = 0
     # find the farthest distance by Astar search using mazeDistance() function.
     for y in range(foodGrid.height):
         for x in range(foodGrid.width):
             if (foodGrid[x][y] == 1) and (mazeDistance(position,(x,y),problem.startingGameState) > maxDistance):
                 maxDistance = mazeDistance(position,(x,y),problem.startingGameState)
+    #for y in range(foodGrid.height):
+    #   for x in range(foodGrid.width):
+    #        if (foodGrid[x][y] == 1) and (util.manhattanDistance(position,(x,y)) > maxDistance):
+    #           maxDistance = util.manhattanDistance(position,(x,y))
     H = maxDistance     
-    return H
+    return maxDistance
     
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -545,7 +548,7 @@ class ClosestDotSearchAgent(SearchAgent):
         "*** YOUR CODE HERE ***"
         """ Using BFS defined in search.py to find the goal""" 
         return search.bfs(problem) 
-        util.raiseNotDefined()
+        "util.raiseNotDefined()"
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -578,15 +581,18 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
+        "*** YOUR CODE HERE ***"
         x,y = state
-         # find greedily the closest dot to eat (= goal)
-        distance, goal = min([(util.manhattanDistance(state, goal), goal) for goal in self.food.asList()])
+        costList = []
+        for goal in self.food.asList():
+            costList.append(util.manhattanDistance(state, goal))
+        minimumCost = min(costList)
+        goal = self.food.asList()[costList.index(minimumCost)]
         if state == goal:
             return True
         else:
             return False
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        "util.raiseNotDefined()"
 
 def mazeDistance(point1, point2, gameState):
     """
